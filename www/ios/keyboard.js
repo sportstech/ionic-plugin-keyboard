@@ -40,36 +40,35 @@ Keyboard.disableScrollingInShrinkView = function(disable) {
 
 Keyboard.fireOnShow = function() {
     Keyboard.isVisible = true;
-    if (Keyboard.onshow) {
-        Keyboard.onshow();
-    }
+    if (Keyboard.onshow) Keyboard.onshow();
 };
 Keyboard.fireOnHide = function() {
     Keyboard.isVisible = false;
-    if (Keyboard.onhide) {
-        Keyboard.onhide();
-    }
+    if (Keyboard.onhide) Keyboard.onhide();
 };
 Keyboard.fireOnHiding = function() {
+    Keyboard.isVisible = false;
     // Automatic scroll to the top of the page
     // to prevent quirks when using position:fixed elements
     // inside WebKit browsers (iOS specifically).
     // See CB-6444 for context.
-    if (Keyboard.automaticScrollToTopOnHiding) {
-        document.body.scrollLeft = 0;
-    }
-
-    if (Keyboard.onhiding) {
-        Keyboard.onhiding();
-    }
+    if (Keyboard.automaticScrollToTopOnHiding) document.body.scrollLeft = 0;
+    if (Keyboard.onhiding) Keyboard.onhiding();
+    cordova.fireWindowEvent('native.keyboardhide');
 };
-Keyboard.fireOnShowing = function() {
-    if (Keyboard.onshowing) {
-        Keyboard.onshowing();
-    }
+Keyboard.fireOnShowing = function(options) {
+    Keyboard.isVisible = true;
+    if (Keyboard.onshowing) Keyboard.onshowing();
+    cordova.fireWindowEvent('native.keyboardshow', options);
 };
 
 Keyboard.isVisible = false;
 Keyboard.automaticScrollToTopOnHiding = false;
+
+// ionic methods
+Keyboard.hideKeyboardAccessoryBar = Keyboard.hideFormAccessoryBar;
+Keyboard.close = function(){};
+Keyboard.show = function(){};
+Keyboard.disableScroll = function(){};
 
 module.exports = Keyboard;
