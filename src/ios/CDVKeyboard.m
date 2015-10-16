@@ -86,7 +86,6 @@
                                         usingBlock:^(NSNotification* notification) {
             CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
             keyboardFrame = [self.viewController.view convertRect:keyboardFrame fromView:nil];
-            // [weakSelf.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.plugins.Keyboard.isVisible = true; cordova.fireWindowEvent('native.keyboardshow', { 'keyboardHeight': %@ }); ", [@(keyboardFrame.size.height) stringValue]]];
             [weakSelf.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.plugins.Keyboard.fireOnShowing({ 'keyboardHeight': %@ });", [@(keyboardFrame.size.height) stringValue]]];
             weakSelf.keyboardIsVisible = YES;
         }];
@@ -218,13 +217,21 @@
         }
         
         // hides the accessory bar
+        // NOTE: STI modifications from https://github.com/apache/cordova-plugins/compare/master...oliverfriedmann:patch-1
         if ([[peripheralView description] hasPrefix:@"<UIWebFormAccessory"]) {
-            //remove the extra scroll space for the form accessory bar
-            CGRect newFrame = self.webView.scrollView.frame;
-            newFrame.size.height += peripheralView.frame.size.height;
-            self.webView.scrollView.frame = newFrame;
-            
+            // save the height
             _accessoryBarHeight = peripheralView.frame.size.height;
+            
+            // reposition keyboard container
+            CGRect r = view.frame;
+            r.origin.y += _accessoryBarHeight;
+            // resize keyboard container
+            r.size.height -= _accessoryBarHeight;
+            view.frame = r;
+            // recenter keyboard container
+            CGPoint c = view.center;
+            c.y += _accessoryBarHeight / 2;
+            view.center = c;
             
             // remove the form accessory bar
             if(IsAtLeastiOSVersion(@"8.0")){
@@ -233,6 +240,10 @@
                 [peripheralView removeFromSuperview];
             }
             
+            // increase size of web view scroll view
+            CGRect newFrame = self.webView.scrollView.frame;
+            newFrame.size.height += _accessoryBarHeight;
+            self.webView.scrollView.frame = newFrame;
         }
         // hides the thin grey line used to adorn the bar (iOS 6)
         if ([[peripheralView description] hasPrefix:@"<UIImageView"]) {
