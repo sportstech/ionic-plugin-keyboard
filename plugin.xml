@@ -29,20 +29,17 @@
 
     <!-- ios -->
     <platform name="ios">
-        <js-module src="www/ios/keyboard.js" name="keyboard">
-            <runs/>
-            <clobbers target="cordova.plugins.Keyboard" />
-        </js-module>
         <config-file target="config.xml" parent="/*">
             <feature name="Keyboard">
                 <param name="ios-package" value="IonicKeyboard" onload="true" />
             </feature>
         </config-file>
+        <js-module src="www/ios/keyboard.js" name="keyboard">
+    	    <clobbers target="window.Keyboard" />
+        </js-module>
 
-        <header-file src="src/ios/IonicKeyboard.h" />
-        <source-file src="src/ios/IonicKeyboard.m" />
-        <header-file src="src/ios/UIWebViewExtension.h" />
-        <source-file src="src/ios/UIWebViewExtension.m" />
+        <header-file src="src/ios/CDVKeyboard.h" />
+        <source-file src="src/ios/CDVKeyboard.m" />
     </platform>
 
     <!-- blackberry10 -->
