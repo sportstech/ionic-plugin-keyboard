@@ -1,22 +1,22 @@
 Keyboard
 ======
 
-The `cordova.plugins.Keyboard` object provides functions to make interacting with the keyboard easier, and fires events to indicate that the keyboard will hide/show.
+The `window.Keyboard` object provides functions to make interacting with the keyboard easier, and fires events to indicate that the keyboard will hide/show.
 
     cordova plugin add ionic-plugin-keyboard
 
 Methods
 -------
 
-- cordova.plugins.Keyboard.hideKeyboardAccessoryBar
-- cordova.plugins.Keyboard.close
-- cordova.plugins.Keyboard.disableScroll
-- cordova.plugins.Keyboard.show
+- window.Keyboard.hideKeyboardAccessoryBar
+- window.Keyboard.close
+- window.Keyboard.disableScroll
+- window.Keyboard.show
 
 Properties
 --------
 
-- cordova.plugins.Keyboard.isVisible
+- window.Keyboard.isVisible
 
 Events
 --------
@@ -32,8 +32,8 @@ Keyboard.hideKeyboardAccessoryBar
 
 Hide the keyboard accessory bar with the next, previous and done buttons.
 
-    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
+    window.Keyboard.hideKeyboardAccessoryBar(true);
+    window.Keyboard.hideKeyboardAccessoryBar(false);
 
 Supported Platforms
 -------------------
@@ -46,7 +46,7 @@ Keyboard.close
 
 Close the keyboard if it is open.
 
-    cordova.plugins.Keyboard.close();
+    window.Keyboard.close();
 
 Supported Platforms
 -------------------
@@ -59,8 +59,8 @@ Keyboard.disableScroll
 
 Disable native scrolling, useful if you are using JavaScript to scroll
 
-    cordova.plugins.Keyboard.disableScroll(true);
-    cordova.plugins.Keyboard.disableScroll(false);
+    window.Keyboard.disableScroll(true);
+    window.Keyboard.disableScroll(false);
 
 Supported Platforms
 -------------------
@@ -72,7 +72,7 @@ Keyboard.show
 
 Force keyboard to be shown. This typically helps if autofocus on a text element does not pop up the keyboard automatically
 
-    cordova.plugins.Keyboard.show();
+    window.Keyboard.show();
 
 Supported Platforms
 

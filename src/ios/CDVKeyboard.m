@@ -71,13 +71,13 @@
                                             object:nil
                                              queue:[NSOperationQueue mainQueue]
                                         usingBlock:^(NSNotification* notification) {
-            [weakSelf.commandDelegate evalJs:@"cordova.plugins.Keyboard.fireOnShow();"];
+            [weakSelf.commandDelegate evalJs:@"window.Keyboard.fireOnShow();"];
         }];
     _keyboardHideObserver = [nc addObserverForName:UIKeyboardDidHideNotification
                                             object:nil
                                              queue:[NSOperationQueue mainQueue]
                                         usingBlock:^(NSNotification* notification) {
-            [weakSelf.commandDelegate evalJs:@"cordova.plugins.Keyboard.fireOnHide();"];
+            [weakSelf.commandDelegate evalJs:@"window.Keyboard.fireOnHide();"];
         }];
 
     _keyboardWillShowObserver = [nc addObserverForName:UIKeyboardWillShowNotification
@@ -86,14 +86,14 @@
                                         usingBlock:^(NSNotification* notification) {
             CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
             keyboardFrame = [self.viewController.view convertRect:keyboardFrame fromView:nil];
-            [weakSelf.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.plugins.Keyboard.fireOnShowing({ 'keyboardHeight': %@ });", [@(keyboardFrame.size.height) stringValue]]];
+            [weakSelf.commandDelegate evalJs:[NSString stringWithFormat:@"window.Keyboard.fireOnShowing({ 'keyboardHeight': %@ });", [@(keyboardFrame.size.height) stringValue]]];
             weakSelf.keyboardIsVisible = YES;
         }];
     _keyboardWillHideObserver = [nc addObserverForName:UIKeyboardWillHideNotification
                                             object:nil
                                              queue:[NSOperationQueue mainQueue]
                                         usingBlock:^(NSNotification* notification) {
-            [weakSelf.commandDelegate evalJs:@"cordova.plugins.Keyboard.fireOnHiding();"];
+            [weakSelf.commandDelegate evalJs:@"window.Keyboard.fireOnHiding();"];
             weakSelf.keyboardIsVisible = NO;
         }];
     
