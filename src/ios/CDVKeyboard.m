@@ -223,15 +223,15 @@
             _accessoryBarHeight = peripheralView.frame.size.height;
             
             // reposition keyboard container
-            CGRect r = view.frame;
+            CGRect r = peripheralView.frame;
             r.origin.y += _accessoryBarHeight;
             // resize keyboard container
             r.size.height -= _accessoryBarHeight;
-            view.frame = r;
+            peripheralView.frame = r;
             // recenter keyboard container
-            CGPoint c = view.center;
+            CGPoint c = peripheralView.center;
             c.y += _accessoryBarHeight / 2;
-            view.center = c;
+            peripheralView.center = c;
             
             // remove the form accessory bar
             if(IsAtLeastiOSVersion(@"8.0")){
