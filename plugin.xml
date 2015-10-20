@@ -31,7 +31,7 @@
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="Keyboard">
-                <param name="ios-package" value="IonicKeyboard" onload="true" />
+                <param name="ios-package" value="CDVKeyboard" onload="true" />
             </feature>
         </config-file>
         <js-module src="www/ios/keyboard.js" name="keyboard">
