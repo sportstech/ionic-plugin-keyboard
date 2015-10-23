@@ -206,49 +206,37 @@
     
     for (UIView* peripheralView in [self getKeyboardViews:keyboardWindow]) {
         
-        // hides the backdrop (iOS 7)
-        if ([[peripheralView description] hasPrefix:@"<UIKBInputBackdropView"]) {
-            // check that this backdrop is for the accessory bar (at the top),
-            // sparing the backdrop behind the main keyboard
-            CGRect rect = peripheralView.frame;
-            if (rect.origin.y == 0) {
-                [[peripheralView layer] setOpacity:0.0];
-            }
-        }
-        
-        // hides the accessory bar
-        // NOTE: STI modifications from https://github.com/apache/cordova-plugins/compare/master...oliverfriedmann:patch-1
-        if ([[peripheralView description] hasPrefix:@"<UIWebFormAccessory"]) {
-            // save the height
-            _accessoryBarHeight = peripheralView.frame.size.height;
-            
-            // reposition keyboard container
-            CGRect r = peripheralView.frame;
-            r.origin.y += _accessoryBarHeight;
-            // resize keyboard container
-            r.size.height -= _accessoryBarHeight;
-            peripheralView.frame = r;
-            // recenter keyboard container
-            CGPoint c = peripheralView.center;
-            c.y += _accessoryBarHeight / 2;
-            peripheralView.center = c;
-            
-            // remove the form accessory bar
-            if(IsAtLeastiOSVersion(@"8.0")){
-                [[peripheralView layer] setOpacity:0.0];
-            }else{
-                [peripheralView removeFromSuperview];
-            }
-            
-            // increase size of web view scroll view
-            CGRect newFrame = self.webView.scrollView.frame;
-            newFrame.size.height += _accessoryBarHeight;
-            self.webView.scrollView.frame = newFrame;
-        }
-        // hides the thin grey line used to adorn the bar (iOS 6)
-        if ([[peripheralView description] hasPrefix:@"<UIImageView"]) {
-            [[peripheralView layer] setOpacity:0.0];
-        }
+      // hides the backdrop (iOS 7)
+      if ([[peripheralView description] hasPrefix:@"<UIKBInputBackdropView"]) {
+          // check that this backdrop is for the accessory bar (at the top),
+          // sparing the backdrop behind the main keyboard
+          CGRect rect = peripheralView.frame;
+          if (rect.origin.y == 0) {
+              [[peripheralView layer] setOpacity:0.0];
+          }
+      }
+      
+      // hides the accessory bar
+      // NOTE: STI modifications may be neccessary for https://github.com/apache/cordova-plugins/compare/master...oliverfriedmann:patch-1
+      if ([[peripheralView description] hasPrefix:@"<UIWebFormAccessory"]) {
+          //remove the extra scroll space for the form accessory bar
+          CGRect newFrame = self.webView.scrollView.frame;
+          newFrame.size.height += peripheralView.frame.size.height;
+          self.webView.scrollView.frame = newFrame;
+          
+          _accessoryBarHeight = peripheralView.frame.size.height;
+          
+          // remove the form accessory bar
+          if(IsAtLeastiOSVersion(@"8.0")){
+              [[peripheralView layer] setOpacity:0.0];
+          }else{
+              [peripheralView removeFromSuperview];
+          }
+      }
+      // hides the thin grey line used to adorn the bar (iOS 6)
+      if ([[peripheralView description] hasPrefix:@"<UIImageView"]) {
+          [[peripheralView layer] setOpacity:0.0];
+      }
     }
 }
 
