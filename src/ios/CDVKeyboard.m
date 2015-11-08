@@ -219,10 +219,15 @@
       // hides the accessory bar
       // NOTE: STI modifications may be neccessary for https://github.com/apache/cordova-plugins/compare/master...oliverfriedmann:patch-1
       if ([[peripheralView description] hasPrefix:@"<UIWebFormAccessory"]) {
-          //remove the extra scroll space for the form accessory bar
-          CGRect newFrame = self.webView.scrollView.frame;
-          newFrame.size.height += peripheralView.frame.size.height;
-          self.webView.scrollView.frame = newFrame;
+        
+          // NOTE: STI removed these lines since it seems to fix the shrinkview, maybe only do this if NOT shrinking view
+          if(!self.shrinkView){
+            // remove the extra scroll space for the form accessory bar
+            CGRect newFrame = self.webView.scrollView.frame;
+            newFrame.size.height += peripheralView.frame.size.height;
+            self.webView.scrollView.frame = newFrame;
+          }
+          
           
           _accessoryBarHeight = peripheralView.frame.size.height;
           
